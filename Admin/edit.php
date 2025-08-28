@@ -2,36 +2,37 @@
 require_once('config.php');
 include 'app.php';
 
-	// berikut script untuk proses tambah barang ke database 
-	if(!empty($_POST['nama'])){
+	
+	// berikut script untuk proses edit barang ke database 
+	if(!empty($_POST['nama_barang'])){
 		// menangkap data post 
-		$nama = $_POST['nama'];
-		$tempat = $_POST['tempat'];
-		$TTL = $_POST['TTL'];
-		$nik = $_POST['nik'];
-		$kk = $_POST['kk'];
-		$no_rmh = $_POST['no_rmh'];
-		$no_hp = $_POST['no_hp'];
-		$alamat = $_POST['alamat'];
+		$nama_barang = $_POST['nama_barang'];
+		$stok = $_POST['stok'];
+		$harga = $_POST['harga'];
+		$tanggal = $_POST['tanggal'];
+		$id = $_POST['id_barang'];
 		
-		$data[] = $nama;
-		$data[] = $tempat;
-		$data[] = $TTL;
-		$data[] = $nik;
-		$data[] = $kk;
-		$data[] = $no_rmh;
-		$data[] = $no_hp;
-		$data[] = $alamat;
+		$data[] = $nama_barang;
+		$data[] = $stok;
+		$data[] = $harga;
+		$data[] = $tanggal;
+		$data[] = $id;
 		
 		// simpan data barang
 		
-		$sql = 'INSERT INTO data_warga (nama,tempat,TTL,nik,kk,no_rmh,no_hp,alamat)VALUES (?,?,?,?,?,?,?,?)';
+		$sql = 'UPDATE tbl_barang SET nama_barang=?,stok=?,harga_barang=?,tgl_masuk=? WHERE id_barang=?';
 		$row = $koneksi->prepare($sql);
 		$row->execute($data);
 		
 		// redirect
-		echo '<script>alert("Berhasil Tambah Data");window.location="data_warga.php"</script>';
+		echo '<script>alert("Berhasil Edit Data");window.location="index.php"</script>';
 	}
+	// untuk menampilkan data barang berdasarkan id barang
+	$id = $_GET['id'];
+	$sql = "SELECT *FROM tbl_barang WHERE id_barang= ?";
+	$row = $koneksi->prepare($sql);
+	$row->execute(array($id));
+	$hasil = $row->fetch();
 ?>
 
 <div class="content-wrapper">
